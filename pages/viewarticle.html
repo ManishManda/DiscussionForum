@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/viewpage.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="/css/resources/img/favicon.ico" />
+    <title>Discussion forum</title>
+  </head>
+  <body>
+    <div class="header">
+      <div class="heading">
+        <img src="/css/resources/img/logo.png" id="logo" />
+        <h2>Discussion Forum</h2>
+      </div>
+      <ul class="navbar">
+        <li><a href="../index.html">Home</a></li>
+        <li id="create"><a href="/pages/createarticle.html">CreatePage</a></li>
+        <li><a href="#"" onclick="deletePage(event)">DeletePage</a></li>
+         <li><a href="#"" onclick="editPage(event)">EditPage</a></li>
+      </ul>
+    </div>
+    <div id="viewarticle">
+      <h1 id="title" style="text-align: left; padding-left:150px"></h1>
+      <span id="details"style="float:right;font-weight:bold ;padding-right:300px"></span>
+      <p
+        id="content"
+        style="
+          text-align: inherit;
+          padding-left: 150px;
+          padding-right: 150px;
+          padding-top: 50px;
+          margin-top: 0%;
+        "
+      ></p>
+    </div>
+
+    <div class="commentsection" >
+      <div class="addcomment" style="height:280px;">
+          <h3 >Add Comment</h3>  
+        <form id="addcomment">
+           <span id="addcommentvalidate" style="color:red"></span><br><br>
+          <input
+            type="text"
+            id="name"
+            placeholder="Enter Your Name"
+            
+          /><br /><br>
+          <textarea
+            id="commentbody"
+            placeholder="Leave Your Reply"
+          ></textarea
+          ><br />
+          <input
+            type="submit"
+            value="Submit"
+            id="submitbtn"
+            onclick="sendComment(event,constructComments)" style="margin-top:10px";
+          />
+
+        </form>
+      </div>
+      <div class="commentcontainer">
+        <h3 style="margin-left: 40px">Comments</h3>
+        <ul id="commentlist"></ul>
+      </div>
+    </div>
+    <script src="/scripts/viewarticle.js"></script>
+  </body>
+</html>

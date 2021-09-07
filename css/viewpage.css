@@ -1,0 +1,119 @@
+.heading h2 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: rgb(42, 81, 255);
+  padding-left: 100px;
+}
+#logo {
+  width: 50px;
+  height: 40px;
+  float: left;
+}
+ul.navbar {
+  background-color: rgb(4, 77, 167);
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+ul.navbar li {
+  float: left;
+}
+ul.navbar a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+#editor {
+  border: solid 1px #ccc;
+  padding: 20px;
+  min-height: 200px;
+}
+h1 {
+  text-align: "center";
+}
+.commentsection {
+  /* background-color:                  #f1f9ff; */
+  background-color: rgba(240, 248, 255, 0.7);
+  border: 1px black;
+  position: absolute;
+  width: 100%;
+}
+.addcomment {
+  padding-left: 100px;
+  margin: 50px;
+  height: 500px;
+}
+#name {
+  width: 450px;
+  height: 20px;
+  padding: 10px;
+}
+#commentbody {
+  width: 450px;
+  height: 100px;
+  padding: 10px;
+}
+.commentcontainer {
+  /* margin: 20px; */
+  padding-left: 100px;
+}
+#commentlist li {
+  list-style-type: none;
+}
+.replybtn {
+  background: none;
+  margin: 0;
+  cursor: pointer;
+  border: none;
+  margin-left: 10px;
+  color: rgb(106, 37, 171);
+}
+#textbox {
+  /* border-top: none;
+  border-left: none;
+  border-right: none; */
+  /* outline: none; */
+  margin-left: 60px;
+}
+.replybtn:hover {
+  color: rgb(106, 37, 171);
+  text-decoration: underline;
+}
+.replytextbtn {
+  background: none;
+  margin: 0;
+  cursor: pointer;
+  border: none;
+  /* margin-left: 10px; */
+  color: rgb(37, 37, 171);
+}
+.replytextbtn:hover {
+  text-decoration: underline;
+  background: none;
+  /* margin: 0; */
+  cursor: pointer;
+  border: none;
+  /* margin-left: 10px; */
+}
+.replytextbtn:disabled {
+  text-decoration: none;
+}
+.commentcontainer ul,
+li {
+  list-style-type: none;
+}
+div.commentdiv {
+  border: 1px rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255);
+  width: 500px;
+}
+
+em {
+  font-size: 0.5em;
+}
+#replytextarea {
+  margin-top: 20px;
+  margin-left: 60px;
+}

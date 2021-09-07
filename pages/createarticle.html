@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/createpage.css" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="/css/resources/img/favicon.ico"
+    />
+    <title>Discussion Forum</title>
+  </head>
+  <body>
+    <div class="header">
+      <div class="heading">
+        <img src="/css/resources/img/logo.png" id="logo" />
+        <h2>Discussion Forum</h2>
+      </div>
+      <ul class="navbar">
+        <li><a href="../index.html">Home</a></li>
+        <li id="create"><a href="/pages/createarticle.html">CreatePage</a></li>
+      </ul>
+    </div>
+    <!-- <img src="/css/resources/img/blog.jpg">  -->
+    <div id="texteditor" style="margin-left: 300px">
+      <h1>Create Article</h1>
+      <form validate>
+        <h2>TITLE</h2>
+        <span id="titlerequired" style="color: red"></span><br />
+        <input
+          type="text"
+          id="title"
+          placeholder="  Enter Title"
+          required
+        /><br />
+        <h2>BODY</h2>
+        <span id="bodyrequired" style="color: red"></span><br />
+        <textarea
+          id="editor"
+          cols="100"
+          rows="100"
+          maxlength="1000"
+          onkeyup="displayCharacterLeft(this)"
+          placeholder="Enter content"
+        ></textarea
+        ><br />
+        <span id="characterleft"></span><br />
+        <input
+          type="submit"
+          onclick="submitArticle(event)"
+          value="Publish"
+          style="float: right; margin-right: 540px"
+        />
+      </form>
+    </div>
+    <script src="/scripts/createarticle.js"></script>
+  </body>
+</html>

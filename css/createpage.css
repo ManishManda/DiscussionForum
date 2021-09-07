@@ -1,0 +1,48 @@
+.heading h2 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: rgb(42, 81, 255);
+  padding-left: 100px;
+}
+#logo {
+  width: 50px;
+  height: 40px;
+  float: left;
+}
+ul.navbar {
+  background-color: rgb(4, 77, 167);
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+ul.navbar li {
+  float: left;
+}
+ul.navbar a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+#editor {
+  border: solid 1px #ccc;
+  padding-left: 20px;
+  padding-top: 10px;
+  max-height: 200px;
+  font-family: Arial, Helvetica, sans-serif;
+  /* white-space: pre; */
+}
+
+#title {
+  width: 400px;
+  height: 30px;
+}
+h1 {
+  background-color: rgb(74, 94, 198);
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  color: aliceblue;
+  width: 620px;
+  text-align: center;
+}

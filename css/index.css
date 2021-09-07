@@ -1,0 +1,105 @@
+.heading h2 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: rgb(42, 81, 255);
+  padding-left: 100px;
+}
+#logo {
+  width: 60px;
+  height: 40px;
+  float: left;
+}
+ul.navbar {
+  background-color: rgb(4, 77, 167);
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+ul.navbar li {
+  float: left;
+}
+ul.navbar li:hover {
+  background-color: rgb(4, 12, 167);
+}
+
+ul.navbar a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.articlediv {
+  /* border: 1px solid; */
+  height: 150px;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.articledata {
+  /* border: 1px solid; */
+  width: 80%;
+  margin: 20px;
+  margin-left: 100px;
+  padding: 5px;
+  height: 100px;
+}
+.articlediv:nth-child(even) {
+  background-color: #f1f5f6;
+}
+.articlelistdiv {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+.articlediv {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+}
+.commentdiv {
+  /* border: 1px solid; */
+  margin: 20px;
+  width: 10%;
+  height: 67px;
+  margin-left: 50px;
+  margin-top: 30px;
+  text-align: center;
+  /* border-style: dotted; */
+  /* background-color: white; */
+}
+.articledata a {
+  text-decoration: none;
+  font-size: 25px;
+  font-weight: bold;
+  color: black;
+  font-family: "Times New Roman";
+}
+.articledata a:hover {
+  text-decoration: underline;
+}
+
+.articledata p {
+  white-space: nowrap;
+  width: 600px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.commentdiv img {
+  width: 30px;
+  height: 30px;
+  padding-top: 15px;
+  vertical-align: middle;
+  /* border-radius: 50%; */
+}
+sup {
+  font-size: 19px;
+}
+/* .commentdiv p { */
+/* display: inline; */
+/* text-align: center; */
+/* margin-top: 10px; */
+/* margin-top: 10px; */
+/* font-size: 20px; */
+/* } */
