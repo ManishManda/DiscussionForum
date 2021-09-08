@@ -52,8 +52,8 @@ function sendComment(e) {
     obj["name"] = name;
     obj["content"] = comment.value;
     obj["userId"] = urlstring.substring(4);
-    obj["date"] =
-      date.toDateString() + " " + date.getHours() + ":" + date.getMinutes();
+    obj["date"] = date.toLocaleString("en-US");
+    // date.toDateString() + " " + date.getHours() + ":" + date.getMinutes();
     obj["replies"] = [];
     sendrequest.open("post", "http://localhost:3000/comments", true);
     sendrequest.setRequestHeader("content-type", "application/json");
@@ -92,10 +92,10 @@ function replymethod(e) {
   e.target.parentNode.innerHTML +=
     "<form class = replyform id=" +
     e.target.parentNode.id +
-    "><input type=text id=textbox placeholder=Name><br>" +
+    "><span id=replyvalidate style='color:red'></span><br><input type=text id=textbox placeholder=Name><br>" +
     "<textarea placeholder=comment rows=5 id=replytextarea></textarea>" +
     "<input type=button value=Post class =replytextbtn onclick= postReply(event,constructComments)>" +
-    "<input type=button class =replytextbtn value=Cancel onclick=cancelReply(event)><span id=replyvalidate></span></form>";
+    "<input type=button class =replytextbtn value=Cancel onclick=cancelReply(event)></form>";
 }
 function cancelReply(e) {
   console.log(e);
@@ -122,8 +122,8 @@ function postReply(e) {
     obj["name"] = replyname;
     obj["reply"] = reply;
     obj["replyid"] = id;
-    obj["date"] =
-      date.toDateString() + " " + date.getHours() + ":" + date.getMinutes();
+    obj["date"] = date.toLocaleString("en-US");
+    // date.toDateString() + " " + date.getHours() + ":" + date.getMinutes();
 
     //to locate particular comment data from all list of comments i.e fromcommentobj
     for (var comment of commentobj) {
@@ -162,6 +162,7 @@ function postReply(e) {
 
 //construct comment section in webpage
 function constructComments(commentobj) {
+  var str = "";
   console.log(commentobj);
   for (var obj of commentobj) {
     commentlist.innerHTML +=
@@ -169,11 +170,11 @@ function constructComments(commentobj) {
       obj.id +
       "><div class=commentdiv id=" +
       obj.id +
-      "><pre><h3>" +
+      "><pre><h3 style='padding-left:20px;padding-top:10px'>" +
       capitalize(obj.name) +
       "  -" +
       obj.date +
-      "</h3></pre><p>" +
+      "</h3></pre><p style='padding-left:20px'>" +
       obj.content +
       "</p>" +
       "<input type=button class=replybtn value=Reply onclick=replymethod(event)></div>" +
@@ -181,18 +182,20 @@ function constructComments(commentobj) {
       (function () {
         if (obj.replies.length != 0) {
           for (var x of obj.replies) {
-            "<li id=" +
+            str +=
+              "<li id=" +
               x.replyId +
               ">" +
-              "<div class=commentdiv><pre><h3>" +
+              "<div class=commentdiv><pre><h3 style='padding-left:20px;padding-top:10px'>" +
               capitalize(x.name) +
               "  -" +
               x.date +
-              "</h3></pre><p>" +
+              "</h3></pre><p style='padding-left:20px'>" +
               x.reply +
               "</p>" +
               "</div></li>";
           }
+          return str;
         } else {
           return "";
         }
@@ -207,11 +210,11 @@ function createCommentElement(obj) {
     obj.id +
     "><div class=commentdiv id=" +
     obj.id +
-    "><pre><h3>" +
+    "><pre><h3 style='padding-left:20px;padding-top:10px'>" +
     obj.name +
     "  -" +
     obj.date +
-    "</h3></pre><p>" +
+    "</h3></pre><p style='padding-left:20px'>" +
     obj.content +
     "</p>" +
     "<input type=button class=replybtn value=Reply onclick=replymethod(event)></div><ul></ul>"
@@ -224,11 +227,11 @@ function createReplyElement(x) {
     "<li id=" +
     x.replyId +
     ">" +
-    "<div class=commentdiv><pre><h3>" +
-    x.name +
+    "<div class=commentdiv><pre><h3 style='padding-left:20px;padding-top:10px'>" +
+    capitalize(x.name) +
     "  -" +
     x.date +
-    "</h3></pre><p>" +
+    "</h3></pre><p style='padding-left:20px'>" +
     x.reply +
     "</p>" +
     "</div></li>"
