@@ -180,23 +180,21 @@ function constructComments(commentobj) {
       "<ul>" +
       (function () {
         if (obj.replies.length != 0) {
-          return obj.replies
-            .map(function (x) {
-              return (
-                "<li id=" +
-                x.replyId +
-                ">" +
-                "<div class=commentdiv><pre><h3>" +
-                x.name +
-                "  -" +
-                x.date +
-                "</h3></pre><p>" +
-                x.reply +
-                "</p>" +
-                "</div></li>"
-              );
-            })
-            .join("");
+          for (var x of obj.replies) {
+            return (
+              "<li id=" +
+              x.replyId +
+              ">" +
+              "<div class=commentdiv><pre><h3>" +
+              x.name +
+              "  -" +
+              x.date +
+              "</h3></pre><p>" +
+              x.reply +
+              "</p>" +
+              "</div></li>"
+            );
+          }
         } else {
           return "";
         }
