@@ -170,7 +170,7 @@ function constructComments(commentobj) {
       "><div class=commentdiv id=" +
       obj.id +
       "><pre><h3>" +
-      obj.name +
+      capitalize(obj.name) +
       "  -" +
       obj.date +
       "</h3></pre><p>" +
@@ -180,23 +180,19 @@ function constructComments(commentobj) {
       "<ul>" +
       (function () {
         if (obj.replies.length != 0) {
-          return obj.replies
-            .map(function (x) {
-              return (
-                "<li id=" +
-                x.replyId +
-                ">" +
-                "<div class=commentdiv><pre><h3>" +
-                x.name +
-                "  -" +
-                x.date +
-                "</h3></pre><p>" +
-                x.reply +
-                "</p>" +
-                "</div></li>"
-              );
-            })
-            .join("");
+          for (var x of obj.replies) {
+            "<li id=" +
+              x.replyId +
+              ">" +
+              "<div class=commentdiv><pre><h3>" +
+              capitalize(x.name) +
+              "  -" +
+              x.date +
+              "</h3></pre><p>" +
+              x.reply +
+              "</p>" +
+              "</div></li>";
+          }
         } else {
           return "";
         }
@@ -204,7 +200,6 @@ function constructComments(commentobj) {
       "</ul></li>";
   }
 }
-
 //creates html view of comment on webpage
 function createCommentElement(obj) {
   return (
@@ -238,4 +233,8 @@ function createReplyElement(x) {
     "</p>" +
     "</div></li>"
   );
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }

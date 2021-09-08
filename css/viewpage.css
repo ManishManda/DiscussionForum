@@ -49,11 +49,13 @@ h1 {
   width: 450px;
   height: 20px;
   padding: 10px;
+  width: 80%;
 }
 #commentbody {
   width: 450px;
   height: 100px;
   padding: 10px;
+  width: 80%;
 }
 .commentcontainer {
   /* margin: 20px; */
