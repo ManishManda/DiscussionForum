@@ -4,7 +4,8 @@ var comment = document.getElementById("commentbody");
 var commentlist = document.getElementById("commentlist");
 var details = document.getElementById("details");
 var reply = document.createElement("a");
-var commentvalidate = document.getElementById("addcommentvalidate");
+var addcommentvalidate = document.getElementById("addcommentvalidate");
+var commentvalidate = document.getElementById("commentvalidate");
 var submitbtn = document.getElementById("submitbtn");
 var addCommentForm = document.getElementById("addcomment");
 urlstring = window.location.search;
@@ -41,9 +42,14 @@ xhr.onload = function () {
 //addcomment+sending xhr to store added comment
 function sendComment(e) {
   e.preventDefault();
-  if (userName.value == "" || comment.value == "") {
-    commentvalidate.innerHTML = "<br>**All fields required";
+  if (userName.value.trim() == "") {
+    addcommentvalidate.innerHTML = "<br>**required";
+  }
+  if (comment.value.trim() == "") {
+    commentvalidate.innerHTML = "<br>**required";
   } else {
+    commentvalidate.innerHTML = "";
+    addcommentvalidate.innerHTML = "";
     var name = userName.value;
     var sendrequest = new XMLHttpRequest();
     var date = new Date();
