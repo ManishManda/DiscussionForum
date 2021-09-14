@@ -4,7 +4,8 @@ var comment = document.getElementById("commentbody");
 var commentlist = document.getElementById("commentlist");
 var details = document.getElementById("details");
 var reply = document.createElement("a");
-var commentvalidate = document.getElementById("addcommentvalidate");
+var addcommentvalidate = document.getElementById("addcommentvalidate");
+var commentvalidate = document.getElementById("commentvalidate");
 var submitbtn = document.getElementById("submitbtn");
 var addCommentForm = document.getElementById("addcomment");
 urlstring = window.location.search;
@@ -39,11 +40,19 @@ xhr.onload = function () {
 };
 
 //addcomment+sending xhr to store added comment
+/**
+ * @param  {} e
+ */
 function sendComment(e) {
   e.preventDefault();
-  if (userName.value == "" || comment.value == "") {
-    commentvalidate.innerHTML = "<br>**All fields required";
+  if (userName.value.trim() == "") {
+    addcommentvalidate.innerHTML = "<br>**required";
+  }
+  if (comment.value.trim() == "") {
+    commentvalidate.innerHTML = "<br>**required";
   } else {
+    commentvalidate.innerHTML = "";
+    addcommentvalidate.innerHTML = "";
     var name = userName.value;
     var sendrequest = new XMLHttpRequest();
     var date = new Date();
@@ -52,8 +61,8 @@ function sendComment(e) {
     obj["name"] = name;
     obj["content"] = comment.value;
     obj["userId"] = urlstring.substring(4);
-    obj["date"] =
-      date.toDateString() + " " + date.getHours() + ":" + date.getMinutes();
+    obj["date"] = date.toLocaleString("en-US");
+    // date.toDateString() + " " + date.getHours() + ":" + date.getMinutes();
     obj["replies"] = [];
     sendrequest.open("post", "http://localhost:3000/comments", true);
     sendrequest.setRequestHeader("content-type", "application/json");
@@ -92,10 +101,10 @@ function replymethod(e) {
   e.target.parentNode.innerHTML +=
     "<form class = replyform id=" +
     e.target.parentNode.id +
-    "><input type=text id=textbox placeholder=Name><br>" +
+    "><span id=replyvalidate style='color:red'></span><br><input type=text id=textbox placeholder=Name><br>" +
     "<textarea placeholder=comment rows=5 id=replytextarea></textarea>" +
     "<input type=button value=Post class =replytextbtn onclick= postReply(event,constructComments)>" +
-    "<input type=button class =replytextbtn value=Cancel onclick=cancelReply(event)><span id=replyvalidate></span></form>";
+    "<input type=button class =replytextbtn value=Cancel onclick=cancelReply(event)></form>";
 }
 function cancelReply(e) {
   console.log(e);
@@ -106,9 +115,10 @@ function cancelReply(e) {
   e.target.parentNode.remove();
 }
 function postReply(e) {
+  var replyname = document.getElementById("textbox").value;
   e.preventDefault();
   var replyvalidate = document.getElementById("replyvalidate");
-  var replyname = e.target.parentNode.firstChild.value;
+  console.log("i am in replyname", replyname);
   var reply = e.target.previousElementSibling.value;
   var id = e.target.parentNode.id;
   var replaceComment;
@@ -122,8 +132,9 @@ function postReply(e) {
     obj["name"] = replyname;
     obj["reply"] = reply;
     obj["replyid"] = id;
-    obj["date"] =
-      date.toDateString() + " " + date.getHours() + ":" + date.getMinutes();
+    obj["date"] = date.toLocaleString("en-US");
+    console.log(obj);
+    // date.toDateString() + " " + date.getHours() + ":" + date.getMinutes();
 
     //to locate particular comment data from all list of comments i.e fromcommentobj
     for (var comment of commentobj) {
@@ -162,6 +173,7 @@ function postReply(e) {
 
 //construct comment section in webpage
 function constructComments(commentobj) {
+  var str = "";
   console.log(commentobj);
   for (var obj of commentobj) {
     commentlist.innerHTML +=
@@ -169,32 +181,33 @@ function constructComments(commentobj) {
       obj.id +
       "><div class=commentdiv id=" +
       obj.id +
-      "><pre><h3>" +
-      obj.name +
+      "><pre><h3 style='padding-left:20px;padding-top:10px'>" +
+      capitalize(obj.name) +
       "  -" +
       obj.date +
-      "</h3></pre><p>" +
+      "</h3></pre><p style='padding-left:20px'>" +
       obj.content +
       "</p>" +
       "<input type=button class=replybtn value=Reply onclick=replymethod(event)></div>" +
       "<ul>" +
       (function () {
         if (obj.replies.length != 0) {
+          str = "";
           for (var x of obj.replies) {
-            return (
+            str +=
               "<li id=" +
               x.replyId +
               ">" +
-              "<div class=commentdiv><pre><h3>" +
-              x.name +
+              "<div class=commentdiv><pre><h3 style='padding-left:20px;padding-top:10px'>" +
+              capitalize(x.name) +
               "  -" +
               x.date +
-              "</h3></pre><p>" +
+              "</h3></pre><p style='padding-left:20px'>" +
               x.reply +
               "</p>" +
-              "</div></li>"
-            );
+              "</div></li>";
           }
+          return str;
         } else {
           return "";
         }
@@ -202,7 +215,6 @@ function constructComments(commentobj) {
       "</ul></li>";
   }
 }
-
 //creates html view of comment on webpage
 function createCommentElement(obj) {
   return (
@@ -210,11 +222,11 @@ function createCommentElement(obj) {
     obj.id +
     "><div class=commentdiv id=" +
     obj.id +
-    "><pre><h3>" +
-    obj.name +
+    "><pre><h3 style='padding-left:20px;padding-top:10px'>" +
+    capitalize(obj.name) +
     "  -" +
     obj.date +
-    "</h3></pre><p>" +
+    "</h3></pre><p style='padding-left:20px'>" +
     obj.content +
     "</p>" +
     "<input type=button class=replybtn value=Reply onclick=replymethod(event)></div><ul></ul>"
@@ -227,13 +239,17 @@ function createReplyElement(x) {
     "<li id=" +
     x.replyId +
     ">" +
-    "<div class=commentdiv><pre><h3>" +
-    x.name +
+    "<div class=commentdiv><pre><h3 style='padding-left:20px;padding-top:10px'>" +
+    capitalize(x.name) +
     "  -" +
     x.date +
-    "</h3></pre><p>" +
+    "</h3></pre><p style='padding-left:20px'>" +
     x.reply +
     "</p>" +
     "</div></li>"
   );
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }

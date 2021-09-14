@@ -23,11 +23,11 @@ function submitArticle(e) {
   //selecting span element for displaying info
   var titleinfo = document.getElementById("titlerequired");
   var bodyinfo = document.getElementById("bodyrequired");
-  if (title.value == "") {
-    titleinfo.textContent = "**required";
+  if (title.value.trim() == "") {
+    titleinfo.innerHTML = "<br>**required";
   }
-  if (editor.value == "") {
-    bodyinfo.textContent = "**required";
+  if (editor.value.trim() == "") {
+    bodyinfo.innerHTML = "<br>**required";
   } else {
     var xhr = new XMLHttpRequest();
     var obj = {};
