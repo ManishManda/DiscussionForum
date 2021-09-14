@@ -1,6 +1,7 @@
 var count;
 var viewlist = document.getElementById("viewlist");
 var commentobj;
+var laoding = document.getElementById("loading");
 
 //getting all comments of all articles using iife
 (function (callback) {
@@ -8,10 +9,21 @@ var commentobj;
   xhrobj.open("GET", "http://localhost:3000/comments");
   xhrobj.response = "application/json";
   xhrobj.send();
-  xhrobj.onload = function () {
+  viewlist.innerHTML =
+    "<center style=margin:200px;font-size:30px>Loading......</center>";
+  xhrobj.onreadystatechange = function () {
     //storing all comments of articles in commentobj
-    commentobj = JSON.parse(xhrobj.response);
-    callback();
+    if (this.readyState == 4) {
+      viewlist.innerHTML = "";
+      if (this.status == 200) {
+        commentobj = JSON.parse(xhrobj.response);
+        callback();
+      } else {
+        document.write(
+          "<h3>something went wrong......." + "try again after some time</h3>"
+        );
+      }
+    }
   };
 })(getArticleList);
 
@@ -21,43 +33,51 @@ function getArticleList() {
   xhr.open("GET", "http://localhost:3000/articles");
   xhr.responseType = "json";
   xhr.send();
-  xhr.onload = function () {
-    console.log(this.response);
-    for (var obj of this.response) {
-      count = 0;
-      //looping through get count of comments of a specific article
-      for (var i of commentobj) {
-        num = Number.parseInt(i.userId);
-        if (num == obj.id) {
-          count++;
+  viewlist.innerHTML =
+    "<center style=margin:200px;font-size:30px>Loading......</center>";
+  xhr.onreadystatechange = function () {
+    if (this.readyState == 4) {
+      if (this.status == 200) {
+        viewlist.innerHTML = "";
+        console.log(this.response);
+        for (var obj of this.response) {
+          count = 0;
+          //looping through get count of comments of a specific article
+          for (var i of commentobj) {
+            num = Number.parseInt(i.userId);
+            if (num == obj.id) {
+              count++;
+            }
+          }
+          viewlist.innerHTML +=
+            "<div class='articlediv'>" +
+            "<div class='articledata' onclick=viewArticle(event) id=" +
+            obj.id +
+            ">" +
+            "<a href=# id=" +
+            obj.id +
+            ">" +
+            obj.title +
+            "</a >" +
+            "<p>" +
+            obj.content +
+            "</p>" +
+            "</div>" +
+            "<div class='commentdiv'>" +
+            "<img src='css/resources/img/comment.png' id=" +
+            obj.id +
+            "/>" +
+            "<sup><b>" +
+            count +
+            "</b></sup>" +
+            "</div>";
         }
+      } else {
+        document.write(
+          "<h3>something went wrong......." + " try after some time</h3>"
+        );
       }
-      viewlist.innerHTML +=
-        "<div class='articlediv'>" +
-        "<div class='articledata' onclick=viewArticle(event) id=" +
-        obj.id +
-        ">" +
-        "<a href=# id=" +
-        obj.id +
-        ">" +
-        obj.title +
-        "</a >" +
-        "<p>" +
-        obj.content +
-        "</p>" +
-        "</div>" +
-        "<div class='commentdiv'>" +
-        "<img src='css/resources/img/comment.png' id=" +
-        obj.id +
-        "/>" +
-        "<sup><b>" +
-        count +
-        "</b></sup>" +
-        "</div>";
     }
-  };
-  xhr.onerror = function (error) {
-    viewlist.write("Data not found" + error);
   };
 }
 
