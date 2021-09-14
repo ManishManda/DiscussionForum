@@ -40,6 +40,9 @@ xhr.onload = function () {
 };
 
 //addcomment+sending xhr to store added comment
+/**
+ * @param  {} e
+ */
 function sendComment(e) {
   e.preventDefault();
   if (userName.value.trim() == "") {
@@ -112,9 +115,10 @@ function cancelReply(e) {
   e.target.parentNode.remove();
 }
 function postReply(e) {
+  var replyname = document.getElementById("textbox").value;
   e.preventDefault();
   var replyvalidate = document.getElementById("replyvalidate");
-  var replyname = e.target.parentNode.firstChild.value;
+  console.log("i am in replyname", replyname);
   var reply = e.target.previousElementSibling.value;
   var id = e.target.parentNode.id;
   var replaceComment;
@@ -129,6 +133,7 @@ function postReply(e) {
     obj["reply"] = reply;
     obj["replyid"] = id;
     obj["date"] = date.toLocaleString("en-US");
+    console.log(obj);
     // date.toDateString() + " " + date.getHours() + ":" + date.getMinutes();
 
     //to locate particular comment data from all list of comments i.e fromcommentobj
@@ -187,6 +192,7 @@ function constructComments(commentobj) {
       "<ul>" +
       (function () {
         if (obj.replies.length != 0) {
+          str = "";
           for (var x of obj.replies) {
             str +=
               "<li id=" +
@@ -217,7 +223,7 @@ function createCommentElement(obj) {
     "><div class=commentdiv id=" +
     obj.id +
     "><pre><h3 style='padding-left:20px;padding-top:10px'>" +
-    obj.name +
+    capitalize(obj.name) +
     "  -" +
     obj.date +
     "</h3></pre><p style='padding-left:20px'>" +

@@ -62,6 +62,9 @@ function getArticleList() {
 }
 
 //to view article defined at 37
+/**
+ * @param  {} e
+ */
 function viewArticle(e) {
   console.log(e.target.id);
   if (e.target.tagName == "A")
