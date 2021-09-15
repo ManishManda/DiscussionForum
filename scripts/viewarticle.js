@@ -40,12 +40,17 @@ function wait() {
     if (this.readyState == 4) {
       if (this.status == 200) {
         document.body.style.visibility = "visible";
-        var content = document.getElementById("content");
-        var title = document.getElementById("title");
-        title.textContent = this.response[0].title.toUpperCase();
-        content.textContent = this.response[0].content;
-        details.textContent = "Posted on  " + this.response[0].date;
-        constructComments(commentobj);
+        if (this.response != "") {
+          var content = document.getElementById("content");
+          var title = document.getElementById("title");
+          title.textContent = this.response[0].title.toUpperCase();
+          content.textContent = this.response[0].content;
+          details.textContent = "Posted on  " + this.response[0].date;
+          constructComments(commentobj);
+        } else {
+          alert("no data found");
+          window.location.href = "/index.html";
+        }
       } else {
         document.write("...try again after sometime");
       }

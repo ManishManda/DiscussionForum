@@ -45,39 +45,45 @@ function getArticleList() {
   xhr.onreadystatechange = function () {
     if (this.readyState == 4) {
       if (this.status == 200) {
-        viewlist.innerHTML = "";
-        console.log(this.response);
-        for (var obj of this.response) {
-          count = 0;
-          //looping through get count of comments of a specific article
-          for (var i of commentobj) {
-            num = Number.parseInt(i.userId);
-            if (num == obj.id) {
-              count++;
+        if (this.response != "") {
+          viewlist.innerHTML = "";
+          console.log(this.response);
+          for (var obj of this.response) {
+            count = 0;
+            //looping through get count of comments of a specific article
+            for (var i of commentobj) {
+              num = Number.parseInt(i.userId);
+              if (num == obj.id) {
+                count++;
+              }
             }
+            viewlist.innerHTML +=
+              "<div class='articlediv'>" +
+              "<div class='articledata' onclick=viewArticle(event) id=" +
+              obj.id +
+              ">" +
+              "<a href=# id=" +
+              obj.id +
+              ">" +
+              obj.title +
+              "</a >" +
+              "<p>" +
+              obj.content +
+              "</p>" +
+              "</div>" +
+              "<div class='commentdiv'>" +
+              "<img src='css/resources/img/comment.png' id=" +
+              obj.id +
+              "/>" +
+              "<sup><b>" +
+              count +
+              "</b></sup>" +
+              "</div>";
           }
-          viewlist.innerHTML +=
-            "<div class='articlediv'>" +
-            "<div class='articledata' onclick=viewArticle(event) id=" +
-            obj.id +
-            ">" +
-            "<a href=# id=" +
-            obj.id +
-            ">" +
-            obj.title +
-            "</a >" +
-            "<p>" +
-            obj.content +
-            "</p>" +
-            "</div>" +
-            "<div class='commentdiv'>" +
-            "<img src='css/resources/img/comment.png' id=" +
-            obj.id +
-            "/>" +
-            "<sup><b>" +
-            count +
-            "</b></sup>" +
-            "</div>";
+        } else {
+          alert("Create New Article");
+          viewlist.innerHTML =
+            "<center style=margin:200px;font-size:30px>No articles Found......</center>";
         }
       } else {
         document.write(
