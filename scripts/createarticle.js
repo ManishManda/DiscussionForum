@@ -2,8 +2,9 @@ var title = document.getElementById("title");
 var editor = document.getElementById("editor");
 var urlstring = window.location.search;
 
-//populating  createarticlepage with existing data for edititng
-//getting data from DB
+/*populating  createarticlepage with existing data for edititng
+getting data from DB
+*/
 if (urlstring != "") {
   var editxhr = new XMLHttpRequest();
   editxhr.open("GET", "http://localhost:3000/articles" + urlstring);
@@ -15,8 +16,11 @@ if (urlstring != "") {
     console.log(this.response);
   };
 }
-
-//submitting created article
+/**
+ * submitting created article and sending data to json-server
+ * @param {object} e eventobject of submitbtn of article
+ * @return {}
+ */
 function submitArticle(e) {
   e.preventDefault();
 
@@ -52,8 +56,10 @@ function submitArticle(e) {
     };
   }
 }
-
-//function to display no of characters left
+/**
+ *function to display no of characters left
+ * @param {htmlelement textarea} val
+ */
 function displayCharacterLeft(val) {
   var characterleftinfo = document.getElementById("characterleft");
   characterleftinfo.textContent =

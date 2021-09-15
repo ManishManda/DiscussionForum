@@ -21,11 +21,9 @@ var commentobj;
   xhrobj.send();
   xhrobj.onload = function () {
     commentobj = JSON.parse(this.response);
-    constructComments(commentobj);
+    constructComments(commentobj); //builds commentsections
   };
 })();
-//builds comment section
-
 //sending xhrrequest to getarticlesdata
 var xhr = new XMLHttpRequest();
 xhr.open("GET", "http://localhost:3000/articles" + urlstring);
@@ -39,9 +37,11 @@ xhr.onload = function () {
   details.textContent = "Posted on  " + this.response[0].date;
 };
 
-//addcomment+sending xhr to store added comment
 /**
- * @param  {} e
+ * function sends a comment to json-server using xhr and adds comment to
+ * global xhr object
+ * @param {object} e eventobject
+ * @return none
  */
 function sendComment(e) {
   e.preventDefault();
@@ -78,8 +78,11 @@ function sendComment(e) {
     };
   }
 }
-
-//function to delete articles
+/**
+ * function to delete articles
+ * @param {}
+ * @returns {}
+ */
 function deletePage() {
   var delxhr = new XMLHttpRequest();
   delxhr.open(
@@ -90,12 +93,20 @@ function deletePage() {
   window.location.href = "/index.html" + urlstring;
 }
 
-//function to edit article
+/**
+ * function to edit article
+ * @param {}
+ * @return {}
+ */
 function editPage() {
   window.location.href = "createarticle.html" + urlstring;
 }
 
-//functionto givereply to existingcomment
+/**
+ * function to construct reply form to existing comment
+ * @param {object} e  eventobject
+ * @return {}
+ */
 function replymethod(e) {
   e.target.disabled = true;
   e.target.parentNode.innerHTML +=
@@ -106,6 +117,11 @@ function replymethod(e) {
     "<input type=button value=Post class =replytextbtn onclick= postReply(event,constructComments) style=padding-left:290px; float:right>" +
     "<input type=button class =replytextbtn value=Cancel onclick=cancelReply(event)></form>";
 }
+/**
+ * removes dom structure created(replyform)when user presses on cancel btn
+ * @param {Object} e  event objext
+ * @returns none
+ */
 function cancelReply(e) {
   console.log(e);
   var btn = e.target.parentNode.previousElementSibling;
@@ -114,6 +130,10 @@ function cancelReply(e) {
   console.log(btn.disabled);
   e.target.parentNode.remove();
 }
+/**
+ *functions sends reply of user to server(xhr) and appends comment to existing structure dom
+ * @param {Object} e event object
+ */
 function postReply(e) {
   var replyname = document.getElementById("textbox").value;
   e.preventDefault();
@@ -171,7 +191,11 @@ function postReply(e) {
   }
 }
 
-//construct comment section in webpage
+/**construct comment section in webpage
+ *
+ * @param {object []} commentobj global array of object of comments
+ * @returns {}
+ */
 function constructComments(commentobj) {
   var str = "";
   console.log(commentobj);
@@ -215,7 +239,12 @@ function constructComments(commentobj) {
       "</ul></li>";
   }
 }
-//creates html view of comment on webpage
+
+/**
+ * creates html view of comment on webpage
+ * @param {object} obj
+ * @returns {String}  html view of comment
+ */
 function createCommentElement(obj) {
   return (
     "<br><li id=" +
@@ -232,8 +261,11 @@ function createCommentElement(obj) {
     "<input type=button class=replybtn value=Reply onclick=replymethod(event)></div><ul></ul>"
   );
 }
-
-//creates htmlview of replycomment on webpage
+/**
+ * creates  on webpage htmlview of replycomment
+ * @param {Object} x
+ * @returns {String} htmlview of replycomment
+ */
 function createReplyElement(x) {
   return (
     "<li id=" +
@@ -250,6 +282,11 @@ function createReplyElement(x) {
   );
 }
 
+/**
+ * capitalizes the first letter of string and lowercase of other letters
+ * @param {String} str name of user who adds comments
+ * @returns {String}
+ */
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }

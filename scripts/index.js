@@ -3,7 +3,11 @@ var viewlist = document.getElementById("viewlist");
 var commentobj;
 var laoding = document.getElementById("loading");
 
-//getting all comments of all articles using iife
+/**
+ * getting all comments of all articles using iife
+ * @param {function} callback- getArticlelist function
+ */
+
 (function (callback) {
   var xhrobj = new XMLHttpRequest();
   xhrobj.open("GET", "http://localhost:3000/comments");
@@ -27,9 +31,11 @@ var laoding = document.getElementById("loading");
   };
 })(getArticleList);
 
-//gets the articles data from db
 /**
+ * gets the articles data from database using xhr and html is constucted
+ * @param {}
  */
+
 function getArticleList() {
   var xhr = new XMLHttpRequest();
   xhr.open("GET", "http://localhost:3000/articles");
@@ -84,10 +90,11 @@ function getArticleList() {
 }
 
 /**
- *to view article defined at 37
- * @param  {} e
+ *to view article defined at 37 in html
+ * @param  {Object} e event object
  * @return {}
  */
+
 function viewArticle(e) {
   console.log(e.target.id);
   if (e.target.tagName == "A")
