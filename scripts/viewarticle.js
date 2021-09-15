@@ -102,8 +102,8 @@ function replymethod(e) {
     "<form class = replyform id=" +
     e.target.parentNode.id +
     "><span id=replyvalidate style='color:red'></span><br><input type=text id=textbox placeholder=Name><br>" +
-    "<textarea placeholder=comment rows=5 id=replytextarea></textarea>" +
-    "<input type=button value=Post class =replytextbtn onclick= postReply(event,constructComments)>" +
+    "<textarea placeholder=comment rows=5 id=replytextarea></textarea><br>" +
+    "<input type=button value=Post class =replytextbtn onclick= postReply(event,constructComments) style=padding-left:290px; float:right>" +
     "<input type=button class =replytextbtn value=Cancel onclick=cancelReply(event)></form>";
 }
 function cancelReply(e) {
@@ -177,7 +177,7 @@ function constructComments(commentobj) {
   console.log(commentobj);
   for (var obj of commentobj) {
     commentlist.innerHTML +=
-      "<br><li id=" +
+      "<li id=" +
       obj.id +
       "><div class=commentdiv id=" +
       obj.id +

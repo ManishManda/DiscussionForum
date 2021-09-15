@@ -28,6 +28,8 @@ var laoding = document.getElementById("loading");
 })(getArticleList);
 
 //gets the articles data from db
+/**
+ */
 function getArticleList() {
   var xhr = new XMLHttpRequest();
   xhr.open("GET", "http://localhost:3000/articles");
@@ -81,9 +83,10 @@ function getArticleList() {
   };
 }
 
-//to view article defined at 37
 /**
+ *to view article defined at 37
  * @param  {} e
+ * @return {}
  */
 function viewArticle(e) {
   console.log(e.target.id);
