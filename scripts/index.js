@@ -1,14 +1,13 @@
 var count;
 var viewlist = document.getElementById("viewlist");
 var commentobj;
-var laoding = document.getElementById("loading");
+var laoding = document.getElementById("#load");
 
 /**
  * getting all comments of all articles using iife
  * @param {function} callback- getArticlelist function
  */
-
-(function (callback) {
+window.onload = function () {
   var xhrobj = new XMLHttpRequest();
   xhrobj.open("GET", "http://localhost:3000/comments");
   xhrobj.response = "application/json";
@@ -21,7 +20,7 @@ var laoding = document.getElementById("loading");
       viewlist.innerHTML = "";
       if (this.status == 200) {
         commentobj = JSON.parse(xhrobj.response);
-        callback();
+        getArticleList();
       } else {
         document.write(
           "<h3>something went wrong......." + "try again after some time</h3>"
@@ -29,7 +28,7 @@ var laoding = document.getElementById("loading");
       }
     }
   };
-})(getArticleList);
+};
 
 /**
  * gets the articles data from database using xhr and html is constucted

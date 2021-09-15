@@ -8,35 +8,50 @@ var addcommentvalidate = document.getElementById("addcommentvalidate");
 var commentvalidate = document.getElementById("commentvalidate");
 var submitbtn = document.getElementById("submitbtn");
 var addCommentForm = document.getElementById("addcomment");
+var viewarticle = document.getElementById("viewarticle");
 urlstring = window.location.search;
 var commentobj;
 //synchronoulsy calling to get comments data from DB and storing commentobj
-(function () {
-  var xhrobj = new XMLHttpRequest();
-  xhrobj.open(
-    "GET",
-    "http://localhost:3000/comments?userId=" + urlstring.substring(4)
-  );
-
-  xhrobj.send();
-  xhrobj.onload = function () {
-    commentobj = JSON.parse(this.response);
-    constructComments(commentobj); //builds commentsections
+function wait() {
+  console.log("i am in wait()");
+  document.body.style.visibility = "hidden";
+  commentobj = (function () {
+    var xhrobj = new XMLHttpRequest();
+    xhrobj.open(
+      "GET",
+      "http://localhost:3000/comments?userId=" + urlstring.substring(4),
+      false
+    );
+    try {
+      xhrobj.send();
+      if (xhrobj.status == 200) {
+        return JSON.parse(xhrobj.response);
+      }
+    } catch {
+      document.write("something went wrong");
+    }
+  })();
+  //sending xhrrequest to getarticlesdata
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "http://localhost:3000/articles" + urlstring);
+  xhr.responseType = "json";
+  xhr.send();
+  xhr.onreadystatechange = function () {
+    if (this.readyState == 4) {
+      if (this.status == 200) {
+        document.body.style.visibility = "visible";
+        var content = document.getElementById("content");
+        var title = document.getElementById("title");
+        title.textContent = this.response[0].title.toUpperCase();
+        content.textContent = this.response[0].content;
+        details.textContent = "Posted on  " + this.response[0].date;
+        constructComments(commentobj);
+      } else {
+        document.write("...try again after sometime");
+      }
+    }
   };
-})();
-//sending xhrrequest to getarticlesdata
-var xhr = new XMLHttpRequest();
-xhr.open("GET", "http://localhost:3000/articles" + urlstring);
-xhr.responseType = "json";
-xhr.send();
-xhr.onload = function () {
-  var content = document.getElementById("content");
-  var title = document.getElementById("title");
-  title.textContent = this.response[0].title.toUpperCase();
-  content.textContent = this.response[0].content;
-  details.textContent = "Posted on  " + this.response[0].date;
-};
-
+}
 /**
  * function sends a comment to json-server using xhr and adds comment to
  * global xhr object
@@ -138,8 +153,9 @@ function postReply(e) {
   var replyname = document.getElementById("textbox").value;
   e.preventDefault();
   var replyvalidate = document.getElementById("replyvalidate");
-  var reply = document.getElementById("replytextarea").value;
+  var reply = document.getElementById;
   console.log("i am in replyname", replyname);
+  var reply = e.target.previousElementSibling.value;
   var id = e.target.parentNode.id;
   var replaceComment;
   var comment;

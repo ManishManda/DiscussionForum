@@ -9,12 +9,23 @@ if (urlstring != "") {
   var editxhr = new XMLHttpRequest();
   editxhr.open("GET", "http://localhost:3000/articles" + urlstring);
   editxhr.responseType = "json";
-  editxhr.send();
-  editxhr.onload = function () {
-    title.value = this.response[0].title;
-    editor.innerHTML = this.response[0].content;
-    console.log(this.response);
-  };
+  try {
+    editxhr.send();
+    editxhr.onreadystatechange = function () {
+      if (this.readyState == 4) {
+        if (this.status == 200) {
+          title.value = this.response[0].title;
+          editor.innerHTML = this.response[0].content;
+          console.log(this.response);
+        } else {
+          document.write("something went wrong");
+          alert("error has occured");
+        }
+      }
+    };
+  } catch {
+    document.write("error has occured");
+  }
 }
 /**
  * submitting created article and sending data to json-server
@@ -48,12 +59,17 @@ function submitArticle(e) {
       xhr.open("post", "http://localhost:3000/articles");
     }
     xhr.setRequestHeader("content-type", "application/json");
-    xhr.send(JSON.stringify(obj));
-    xhr.responseType = "json";
-    xhr.onload = function () {
-      window.location.href =
-        "/pages/viewarticle.html?id=" + this.response["id"];
-    };
+    try {
+      xhr.send(JSON.stringify(obj));
+      xhr.responseType = "json";
+      xhr.onload = function () {
+        window.location.href =
+          "/pages/viewarticle.html?id=" + this.response["id"];
+      };
+    } catch {
+      alert("error has occured");
+      document.write("something went wrong");
+    }
   }
 }
 /**
