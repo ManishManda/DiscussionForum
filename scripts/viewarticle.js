@@ -138,8 +138,8 @@ function postReply(e) {
   var replyname = document.getElementById("textbox").value;
   e.preventDefault();
   var replyvalidate = document.getElementById("replyvalidate");
+  var reply = document.getElementById("replytextarea").value;
   console.log("i am in replyname", replyname);
-  var reply = e.target.previousElementSibling.value;
   var id = e.target.parentNode.id;
   var replaceComment;
   var comment;
