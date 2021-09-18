@@ -236,22 +236,21 @@ function constructComments(commentobj) {
       "<ul>" +
       (function () {
         if (obj.replies.length != 0) {
-          str = "";
-          for (var x of obj.replies) {
-            str +=
+          obj.replies
+            .map(() => {
               "<li id=" +
-              x.replyId +
-              ">" +
-              "<div class=commentdiv><pre><h3 style='padding-left:20px;padding-top:10px'>" +
-              capitalize(x.name) +
-              "  -" +
-              x.date +
-              "</h3></pre><p style='padding-left:20px'>" +
-              x.reply +
-              "</p>" +
-              "</div></li>";
-          }
-          return str;
+                x.replyId +
+                ">" +
+                "<div class=commentdiv><pre><h3 style='padding-left:20px;padding-top:10px'>" +
+                capitalize(x.name) +
+                "  -" +
+                x.date +
+                "</h3></pre><p style='padding-left:20px'>" +
+                x.reply +
+                "</p>" +
+                "</div></li>";
+            })
+            .join("");
         } else {
           return "";
         }
