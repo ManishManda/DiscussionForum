@@ -236,9 +236,10 @@ function constructComments(commentobj) {
       "<ul>" +
       (function () {
         if (obj.replies.length != 0) {
-          obj.replies
-            .map(() => {
-              "<li id=" +
+          return obj.replies
+            .map((x) => {
+              return (
+                "<li id=" +
                 x.replyId +
                 ">" +
                 "<div class=commentdiv><pre><h3 style='padding-left:20px;padding-top:10px'>" +
@@ -248,7 +249,8 @@ function constructComments(commentobj) {
                 "</h3></pre><p style='padding-left:20px'>" +
                 x.reply +
                 "</p>" +
-                "</div></li>";
+                "</div></li>"
+              );
             })
             .join("");
         } else {
