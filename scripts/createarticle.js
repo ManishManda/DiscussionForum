@@ -1,6 +1,7 @@
 var title = document.getElementById("title");
 var editor = document.getElementById("editor");
 var urlstring = window.location.search;
+var formarticle = document.getElementById("articleform");
 
 /*populating  createarticlepage with existing data for edititng
 getting data from DB
@@ -32,9 +33,9 @@ if (urlstring != "") {
  * @param {object} e eventobject of submitbtn of article
  * @return {}
  */
-function submitArticle(e) {
-  e.preventDefault();
 
+formarticle.addEventListener("submit", (e) => {
+  e.preventDefault();
   //selecting span element for displaying info
   var titleinfo = document.getElementById("titlerequired");
   var bodyinfo = document.getElementById("bodyrequired");
@@ -71,13 +72,13 @@ function submitArticle(e) {
       document.write("something went wrong");
     }
   }
-}
+});
 /**
  *function to display no of characters left
  * @param {htmlelement textarea} val
  */
-function displayCharacterLeft(val) {
+editor.addEventListener("keyup", () => {
   var characterleftinfo = document.getElementById("characterleft");
   characterleftinfo.textContent =
-    "No of characters left -" + (1000 - val.value.length).toString();
-}
+    "No of characters left -" + (1000 - editor.value.length).toString();
+});

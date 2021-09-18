@@ -36,16 +36,16 @@ function wait() {
   xhr.open("GET", "http://localhost:3000/articles" + urlstring);
   xhr.responseType = "json";
   xhr.send();
-  xhr.onreadystatechange = function () {
-    if (this.readyState == 4) {
-      if (this.status == 200) {
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState == 4) {
+      if (xhr.status == 200) {
         document.body.style.visibility = "visible";
-        if (this.response != "") {
+        if (xhr.response != "") {
           var content = document.getElementById("content");
           var title = document.getElementById("title");
-          title.textContent = this.response[0].title.toUpperCase();
-          content.textContent = this.response[0].content;
-          details.textContent = "Posted on  " + this.response[0].date;
+          title.textContent = xhr.response[0].title.toUpperCase();
+          content.textContent = xhr.response[0].content;
+          details.textContent = "Posted on  " + xhr.response[0].date;
           constructComments(commentobj);
         } else {
           alert("no data found");

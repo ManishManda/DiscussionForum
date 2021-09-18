@@ -28,7 +28,7 @@
     <!-- <img src="/css/resources/img/blog.jpg">  -->
     <div id="texteditor" style="margin-left: 300px">
       <h1>Create Article</h1>
-      <form id="validate">
+      <form id="articleform">
         <h2 style="margin: 0px">TITLE</h2>
         <span id="titlerequired" style="color: red; margin: 0"></span><br />
         <input
@@ -44,7 +44,6 @@
           cols="100"
           rows="100"
           maxlength="1000"
-          onkeyup="displayCharacterLeft(this)"
           placeholder="Enter content"
           style="margin: 0px"
         ></textarea
@@ -52,7 +51,6 @@
         <span id="characterleft"></span><br />
         <input
           type="submit"
-          onclick="submitArticle(event)"
           value="Publish"
           style="float: right; margin-right: 390px"
         />
