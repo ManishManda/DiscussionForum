@@ -7,7 +7,7 @@ var laoding = document.getElementById("#load");
  * getting all comments of all articles using iife
  * @param {function} callback- getArticlelist function
  */
-window.onload = function () {
+window.onload = () => {
   var xhrobj = new XMLHttpRequest();
   xhrobj.open("GET", "http://localhost:3000/comments");
   xhrobj.response = "application/json";
@@ -16,9 +16,9 @@ window.onload = function () {
     "<center style=margin:200px;font-size:30px>Loading......</center>";
   xhrobj.onreadystatechange = function () {
     //storing all comments of articles in commentobj
-    if (this.readyState == 4) {
+    if (xhrobj.readyState == 4) {
       viewlist.innerHTML = "";
-      if (this.status == 200) {
+      if (xhrobj.status == 200) {
         commentobj = JSON.parse(xhrobj.response);
         getArticleList();
       } else {
@@ -42,21 +42,22 @@ function getArticleList() {
   xhr.send();
   viewlist.innerHTML =
     "<center style=margin:200px;font-size:30px>Loading......</center>";
-  xhr.onreadystatechange = function () {
-    if (this.readyState == 4) {
-      if (this.status == 200) {
-        if (this.response != "") {
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState == 4) {
+      if (xhr.status == 200) {
+        if (xhr.response != "") {
           viewlist.innerHTML = "";
-          console.log(this.response);
-          for (var obj of this.response) {
-            count = 0;
+          for (var obj of xhr.response) {
             //looping through get count of comments of a specific article
-            for (var i of commentobj) {
-              num = Number.parseInt(i.userId);
-              if (num == obj.id) {
-                count++;
-              }
-            }
+            var count = commentobj
+              .map((element) => {
+                num = Number.parseInt(element.userId);
+                return num;
+              })
+              .filter((num) => {
+                return num == obj.id;
+              });
+            console.log(count.length);
             viewlist.innerHTML +=
               "<div class='articlediv'>" +
               "<div class='articledata' onclick=viewArticle(event) id=" +
@@ -76,7 +77,7 @@ function getArticleList() {
               obj.id +
               "/>" +
               "<sup><b>" +
-              count +
+              count.length +
               "</b></sup>" +
               "</div>";
           }
