@@ -12,50 +12,33 @@ var viewarticle = document.getElementById("viewarticle");
 urlstring = window.location.search;
 var commentobj;
 //synchronoulsy calling to get comments data from DB and storing commentobj
-function wait() {
-  console.log("i am in wait()");
-  document.body.style.visibility = "hidden";
-  commentobj = (function () {
-    var xhrobj = new XMLHttpRequest();
-    xhrobj.open(
-      "GET",
-      "http://localhost:3000/comments?userId=" + urlstring.substring(4),
-      false
-    );
-    try {
-      xhrobj.send();
-      if (xhrobj.status == 200) {
-        return JSON.parse(xhrobj.response);
-      }
-    } catch {
-      document.write("something went wrong");
-    }
-  })();
-  //sending xhrrequest to getarticlesdata
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", "http://localhost:3000/articles" + urlstring);
-  xhr.responseType = "json";
-  xhr.send();
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState == 4) {
-      if (xhr.status == 200) {
-        document.body.style.visibility = "visible";
-        if (xhr.response != "") {
-          var content = document.getElementById("content");
-          var title = document.getElementById("title");
-          title.textContent = xhr.response[0].title.toUpperCase();
-          content.textContent = xhr.response[0].content;
-          details.textContent = "Posted on  " + xhr.response[0].date;
-          constructComments(commentobj);
-        } else {
-          alert("no data found");
-          window.location.href = "/index.html";
-        }
-      } else {
-        document.write("...try again after sometime");
-      }
-    }
+var requestOptions = {
+  method: "GET",
+};
+fetch(
+  "http://localhost:3000/comments?userId=" + urlstring.substring(4),
+  requestOptions
+)
+  .then((response) => response.json())
+  .then((result) => {
+    commentobj = result;
+  })
+  .then(getArticles());
+//sending xhrrequest to getarticlesdata
+function getArticles() {
+  var requestOptions = {
+    method: "GET",
   };
+  fetch("http://localhost:3000/articles" + urlstring, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      var content = document.getElementById("content");
+      var title = document.getElementById("title");
+      title.textContent = result[0].title.toUpperCase();
+      content.textContent = result[0].content;
+      details.textContent = "Posted on  " + result[0].date;
+      constructComments(commentobj);
+    });
 }
 /**
  * function sends a comment to json-server using xhr and adds comment to

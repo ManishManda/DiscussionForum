@@ -8,7 +8,8 @@ var laoding = document.getElementById("#load");
  * @param {function} callback- getArticlelist function
  */
 window.onload = () => {
-  viewlist.innerHTML = "<center><h3font-size=40px>Loading.....</h3></center>";
+  viewlist.innerHTML =
+    "<center><h3 style=padding-top:200px>Loading.....</h3></center>";
   var requestOptions = {
     method: "GET",
   };
