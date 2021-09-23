@@ -36,28 +36,36 @@ formarticle.addEventListener("submit", (e) => {
   } else {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    var raw = JSON.stringify(obj);
-    var requestOptions = {
-      method: "PUT",
-      headers: myHeaders,
-      body: raw,
-    };
+    var url;
     var obj = {};
+    var requestOptions;
     var date = new Date();
     obj["title"] = title.value;
     obj["content"] = editor.value;
     obj["date"] = date.toDateString();
+    var raw = JSON.stringify(obj);
+    var putRequest = {
+      method: "PUT",
+      headers: myHeaders,
+      body: raw,
+    };
+    var postRequest = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+    };
     if (urlstring != "") {
-      var url = "http://localhost:3000/articles/" + urlstring.substring(4);
+      url = "http://localhost:3000/articles/" + urlstring.substring(4);
+      requestOptions = putRequest;
     } else {
       url = "http://localhost:3000/articles";
+      requestOptions = postRequest;
     }
     fetch(url, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result);
-        window.location.href =
-          "/pages/viewarticle.html?id=" + result.response["id"];
+        window.location.href = "/pages/viewarticle.html?id=" + result["id"];
       });
   }
 });
