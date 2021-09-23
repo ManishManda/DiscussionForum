@@ -18,8 +18,13 @@ window.onload = () => {
     .then((result) => {
       commentobj = result;
       console.log(commentobj);
+      getArticleList();
     })
-    .then(getArticleList());
+    .catch(
+      (error) =>
+        (document.body.innerHTML =
+          "ERROR : " + error["message"] + " data............. try again")
+    );
 };
 
 /**
@@ -68,7 +73,12 @@ function getArticleList() {
           </b></sup>
           </div>`;
       }
-    });
+    })
+    .catch(
+      (error) =>
+        (document.body.innerHTML =
+          "ERROR : " + error["message"] + "........try again")
+    );
 }
 
 /**
