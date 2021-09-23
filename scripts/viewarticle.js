@@ -129,13 +129,11 @@ function editPage() {
  */
 function replymethod(e) {
   e.target.disabled = true;
-  e.target.parentNode.innerHTML +=
-    "<form class = replyform id=" +
-    e.target.parentNode.id +
-    "><span id=replyvalidate style='color:red'></span><br><input type=text id=textbox placeholder=Name><br>" +
-    "<textarea placeholder=comment rows=5 id=replytextarea></textarea><br>" +
-    "<input type=button value=Post class =replytextbtn onclick= postReply(event,constructComments) style=padding-left:290px; float:right>" +
-    "<input type=button class =replytextbtn value=Cancel onclick=cancelReply(event)></form>";
+  e.target.parentNode.innerHTML += `<form class = replyform id=
+    ${e.target.parentNode.id}><span id=replyvalidate style='color:red'></span><br> <input type=text id=textbox placeholder=Name><br>"
+    <textarea placeholder=comment rows=5 id=replytextarea></textarea><br> 
+    <input type=button value=Post class =replytextbtn onclick= postReply(event,constructComments) style=padding-left:290px; float:right> 
+    <input type=button class =replytextbtn value=Cancel onclick=cancelReply(event)></form>`;
 }
 /**
  * removes dom structure created(replyform)when user presses on cancel btn
@@ -164,7 +162,7 @@ function postReply(e) {
   var replaceComment;
   var comment;
   if (replyname == "" || reply == "") {
-    replyvalidate.innerHTML = "<br>**All fields required";
+    replyvalidate.innerHTML = "  <br>**All fields required";
   } else {
     //constucting replyobj
     var date = new Date();
@@ -217,7 +215,6 @@ function postReply(e) {
  * @returns {}
  */
 function constructComments(commentobj) {
-  var str = "";
   console.log(commentobj);
   for (var obj of commentobj) {
     commentlist.innerHTML +=
