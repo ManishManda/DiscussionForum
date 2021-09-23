@@ -93,7 +93,7 @@ function sendComment(e) {
       // updating commentobj with newly added comment
       commentobj.push(response);
       //appending reply comment to existing commentsection
-      commentlist.innerHTML += createCommentElement(response);
+      commentlist.innerHTML += createCommentElement(response) + "<ul></ul>";
       addCommentForm.reset();
     };
   }
@@ -221,36 +221,13 @@ function constructComments(commentobj) {
   console.log(commentobj);
   for (var obj of commentobj) {
     commentlist.innerHTML +=
-      "<li id=" +
-      obj.id +
-      "><div class=commentdiv id=" +
-      obj.id +
-      "><pre><h3 style='padding-left:20px;padding-top:10px'>" +
-      capitalize(obj.name) +
-      "  -" +
-      obj.date +
-      "</h3></pre><p style='padding-left:20px'>" +
-      obj.content +
-      "</p>" +
-      "<input type=button class=replybtn value=Reply onclick=replymethod(event)></div>" +
+      createCommentElement(obj) +
       "<ul>" +
       (function () {
         if (obj.replies.length != 0) {
           return obj.replies
             .map((x) => {
-              return (
-                "<li id=" +
-                x.replyId +
-                ">" +
-                "<div class=commentdiv><pre><h3 style='padding-left:20px;padding-top:10px'>" +
-                capitalize(x.name) +
-                "  -" +
-                x.date +
-                "</h3></pre><p style='padding-left:20px'>" +
-                x.reply +
-                "</p>" +
-                "</div></li>"
-              );
+              return createReplyElement(x);
             })
             .join("");
         } else {
@@ -267,20 +244,13 @@ function constructComments(commentobj) {
  * @returns {String}  html view of comment
  */
 function createCommentElement(obj) {
-  return (
-    "<br><li id=" +
-    obj.id +
-    "><div class=commentdiv id=" +
-    obj.id +
-    "><pre><h3 style='padding-left:20px;padding-top:10px'>" +
-    capitalize(obj.name) +
-    "  -" +
-    obj.date +
-    "</h3></pre><p style='padding-left:20px'>" +
-    obj.content +
-    "</p>" +
-    "<input type=button class=replybtn value=Reply onclick=replymethod(event)></div><ul></ul>"
-  );
+  return `<br><li id= 
+    ${obj.id} "><div class=commentdiv id=
+    ${obj.id}
+    ><pre><h3 style='padding-left:20px;padding-top:10px'>${capitalize(
+      obj.name
+    )} -${obj.date}</h3></pre><p style='padding-left:20px'>${obj.content}</p>
+    <input type=button class=replybtn value=Reply onclick=replymethod(event)></div>`;
 }
 /**
  * creates  on webpage htmlview of replycomment
@@ -288,19 +258,15 @@ function createCommentElement(obj) {
  * @returns {String} htmlview of replycomment
  */
 function createReplyElement(x) {
-  return (
-    "<li id=" +
-    x.replyId +
-    ">" +
-    "<div class=commentdiv><pre><h3 style='padding-left:20px;padding-top:10px'>" +
-    capitalize(x.name) +
-    "  -" +
-    x.date +
-    "</h3></pre><p style='padding-left:20px'>" +
-    x.reply +
-    "</p>" +
-    "</div></li>"
-  );
+  return `<li id= 
+    ${x.replyId} 
+    > 
+    <div class=commentdiv><pre><h3 style='padding-left:20px;padding-top:10px'>${capitalize(
+      x.name
+    )} -${x.date}</h3></pre><p style='padding-left:20px'> 
+    ${x.reply} 
+    </p> 
+    </div></li>`;
 }
 
 /**
