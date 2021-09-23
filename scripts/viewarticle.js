@@ -57,7 +57,6 @@ function sendComment(e) {
     commentvalidate.innerHTML = "";
     addcommentvalidate.innerHTML = "";
     var name = userName.value;
-    var sendrequest = new XMLHttpRequest();
     var date = new Date();
     var obj = {};
     name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
@@ -67,20 +66,28 @@ function sendComment(e) {
     obj["date"] = date.toLocaleString("en-US");
     // date.toDateString() + " " + date.getHours() + ":" + date.getMinutes();
     obj["replies"] = [];
-    sendrequest.open("post", "http://localhost:3000/comments", true);
-    sendrequest.setRequestHeader("content-type", "application/json");
-    sendrequest.send(JSON.stringify(obj));
-    sendrequest.onload = function () {
-      var response = JSON.parse(this.response);
-
-      // updating commentobj with newly added comment
-      commentobj.push(response);
-      //appending reply comment to existing commentsection
-      commentlist.innerHTML += createCommentElement(response) + "<ul></ul>";
-      addCommentForm.reset();
+    var myHeader = new Headers();
+    myHeader.append("Content-Type", "application/json");
+    var data = JSON.stringify(obj);
+    console.log(data);
+    var request = {
+      method: "POST",
+      headers: myHeader,
+      body: data,
     };
+    fetch("http://localhost:3000/comments", request)
+      .then((response) => response.json())
+      .then((result) => {
+        commentobj.push(result);
+        commentlist.innerHTML += createCommentElement(result) + "<ul></ul>";
+        addCommentForm.reset();
+      })
+      .catch((error) => console.log("error", error));
+
+    // updating commentobj with newly added comment
   }
 }
+
 /**
  * function to delete articles
  * @param {}
@@ -168,27 +175,27 @@ function postReply(e) {
         commentobj.splice(index, 0, replaceComment);
       }
     }
-    //using xhr sending post comment to DB
-    var postxhr = new XMLHttpRequest();
-    postxhr.open("put", "http://localhost:3000/comments/" + id);
-    postxhr.setRequestHeader("content-type", "application/json");
-    postxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-    postxhr.send(JSON.stringify(replaceComment));
-    postxhr.onload = function () {
-      console.log(e.target);
-      var btn = e.target.parentNode.previousElementSibling;
-      console.log(btn);
-      btn.disabled = false;
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var raw = JSON.stringify(replaceComment);
+    var requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: raw,
+    };
 
-      //appending reply comment to existing commentsection
-      e.target.parentNode.parentNode.nextElementSibling.innerHTML +=
-        createReplyElement(obj);
-      console.log(e.target.parentNode);
-      e.target.parentNode.remove();
-    };
-    postxhr.onerror = function (error) {
-      console.log(error);
-    };
+    fetch("http://localhost:3000/comments/" + id, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        var btn = e.target.parentNode.previousElementSibling;
+        console.log(btn);
+        btn.disabled = false;
+        //appending reply comment to existing commentsection
+        e.target.parentNode.parentNode.nextElementSibling.innerHTML +=
+          createReplyElement(obj);
+        console.log(e.target.parentNode);
+        e.target.parentNode.remove();
+      });
   }
 }
 
