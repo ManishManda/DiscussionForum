@@ -8,6 +8,7 @@ var laoding = document.getElementById("#load");
  * @param {function} callback- getArticlelist function
  */
 window.onload = () => {
+  viewlist.innerHTML = "<center><h3font-size=40px>Loading.....</h3></center>";
   var requestOptions = {
     method: "GET",
   };
@@ -32,6 +33,7 @@ function getArticleList() {
   fetch("http://localhost:3000/articles", requestOptions)
     .then((response) => response.json())
     .then((result) => {
+      viewlist.innerHTML = "";
       for (var obj of result) {
         //looping through get count of comments of a specific article
         var count = commentobj
