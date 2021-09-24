@@ -66,7 +66,8 @@ formarticle.addEventListener("submit", (e) => {
       .then((result) => {
         console.log(result);
         window.location.href = "/pages/viewarticle.html?id=" + result["id"];
-      });
+      })
+      .catch((error) => (document.body.innerHTML = error));
   }
 });
 /**

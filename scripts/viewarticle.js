@@ -9,6 +9,7 @@ var commentvalidate = document.getElementById("commentvalidate");
 var submitbtn = document.getElementById("submitbtn");
 var addCommentForm = document.getElementById("addcomment");
 var viewarticle = document.getElementById("viewarticle");
+var divtotal = document.getElementById("divtotal");
 urlstring = window.location.search;
 var commentobj;
 //synchronoulsy calling to get comments data from DB and storing commentobj
@@ -23,7 +24,8 @@ fetch(
   .then((result) => {
     commentobj = result;
   })
-  .then(getArticles());
+  .then(getArticles())
+  .catch((error) => (document.body.innerHTML = error));
 //sending xhrrequest to getarticlesdata
 function getArticles() {
   var requestOptions = {
@@ -32,13 +34,18 @@ function getArticles() {
   fetch("http://localhost:3000/articles" + urlstring, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      var content = document.getElementById("content");
-      var title = document.getElementById("title");
-      title.textContent = result[0].title.toUpperCase();
-      content.textContent = result[0].content;
-      details.textContent = "Posted on  " + result[0].date;
-      constructComments(commentobj);
-    });
+      if (result.length == 0) {
+        throw new Error("ID Not Found");
+      } else {
+        var content = document.getElementById("content");
+        var title = document.getElementById("title");
+        title.textContent = result[0].title.toUpperCase();
+        content.textContent = result[0].content;
+        details.textContent = "Posted on  " + result[0].date;
+        constructComments(commentobj);
+      }
+    })
+    .catch((error) => (document.body.innerHTML = error));
 }
 /**
  * function sends a comment to json-server using xhr and adds comment to
@@ -82,7 +89,7 @@ function sendComment(e) {
         commentlist.innerHTML += createCommentElement(result) + "<ul></ul>";
         addCommentForm.reset();
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => (document.body.innerHTML = error));
 
     // updating commentobj with newly added comment
   }
@@ -195,7 +202,8 @@ function postReply(e) {
           createReplyElement(obj);
         console.log(e.target.parentNode);
         e.target.parentNode.remove();
-      });
+      })
+      .catch(() => (document.body.innerHTML = "error has occured"));
   }
 }
 
